@@ -26,7 +26,6 @@ int current_floor = -1;
 Direction current_direction = DIR_STOP;
 
 void elevator_fsm_init(void) {
-    printf("Initializing Elevator FSM\n");
     elevator_fsm.state = state_init;
     fsm_dispatch(EVENT_ENTRY);
 }
@@ -54,7 +53,6 @@ void state_init(fsm_events_t event) {
             return;
             
         case EVENT_EXIT:
-            printf("STATE: INIT - Exiting\n");
             return;
             
         default:
@@ -171,7 +169,6 @@ void state_moving_down(fsm_events_t event) {
 void state_door_open(fsm_events_t event) {
     switch (event) {
         case EVENT_ENTRY:
-            printf("STATE: DOOR_OPEN\n");
             current_state_id = STATE_DOOR_OPEN;
             hardware_interface_set_motor_direction(DIR_STOP);
             
@@ -197,7 +194,6 @@ void state_door_open(fsm_events_t event) {
             return;
             
         case EVENT_EXIT:
-            printf("STATE: DOOR_OPEN - Exiting\n");
             door_control_close_door();
             return;
             
@@ -210,7 +206,6 @@ void state_door_open(fsm_events_t event) {
 void state_emergency_stop(fsm_events_t event) {
     switch (event) {
         case EVENT_ENTRY:
-            printf("STATE: EMERGENCY_STOP\n");
             current_state_id = STATE_EMERGENCY_STOP;
             hardware_interface_set_motor_direction(DIR_STOP);
             
@@ -232,7 +227,6 @@ void state_emergency_stop(fsm_events_t event) {
             return;
             
         case EVENT_EXIT:
-            printf("STATE: EMERGENCY_STOP - Exiting\n");
             if (current_floor != -1) {
                 door_control_close_door();
             }

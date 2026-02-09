@@ -2,8 +2,14 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <time.h>
-#include "driver/elevio.h"
 
+#include "driver/elevio.h"
+#include "door_control.h"
+#include "elevator_control.h"
+#include "elevator_types.h"
+#include "hardware_interface.h"
+#include "order_manager.h"
+#include "timer.h"
 
 
 int main(){

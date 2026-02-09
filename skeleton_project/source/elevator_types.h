@@ -19,7 +19,7 @@ typedef enum {
 
 typedef enum {
     DOOR_CLOSED,
-    DOOR_OPENN,
+    DOOR_OPEN,
     DOOR_OBSTRUCTED
 } DoorState;
 

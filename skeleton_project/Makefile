@@ -1,35 +1,23 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -g -I.
 
-EXECUTABLE  = elevator
+SOURCES = source/main.c \
+          source/fsm/fsm.c \
+          source/fsm/elevator_fsm.c \
+          source/order_manager.c \
+          source/hardware_interface.c \
+          source/door_control.c \
+          source/driver/elevio.c
 
-COMPILER    = clang
-CFLAGS      = -Wall -g -std=gnu11 -fsanitize=address
-LDFLAGS     = -fsanitize=address
-EXCLUDE     = '*test*'
+OBJECTS = $(SOURCES:.c=.o)
+TARGET = elevator
 
+all: $(TARGET)
 
-SOURCEDIR = source
-OBJECTDIR = build
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(TARGET)
 
-SOURCES := $(patsubst $(SOURCEDIR)/%, %, $(shell find $(SOURCEDIR) -name '*.c'  ! -name $(EXCLUDE)  ! -path $(EXCLUDE)))
-OBJECTS = $(addprefix $(OBJECTDIR)/, $(SOURCES:.c=.o))
-
-all: $(EXECUTABLE) 
-
-rebuild: clean all
-	
 clean:
-	rm -f $(EXECUTABLE)
-	rm -rf $(OBJECTDIR)
+	rm -f $(OBJECTS) $(TARGET)
 
-## executable depends on object files: link them
-$(EXECUTABLE): $(OBJECTS) 
-	$(COMPILER) $^ -o $@ $(LDFLAGS)
-
-## object files depend on source files: compile them
-$(OBJECTDIR)/%.o: $(SOURCEDIR)/%.c
-	@mkdir -p $(@D)
-	$(COMPILER) -o $@ -c $(CFLAGS) $<
-
-	
-.PHONY: all rebuild clean
-
+.PHONY: all clean

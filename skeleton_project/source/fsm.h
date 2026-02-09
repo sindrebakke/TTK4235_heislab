@@ -1,6 +1,8 @@
 #ifndef FSM_H
 #define FSM_H
 
+#include <stdlib.h>
+
 typedef enum {
     EVENT_TICK,              
     EVENT_ENTRY,             
@@ -22,7 +24,6 @@ typedef struct {
 
 extern fsm_t elevator_fsm;
 
-// FSM functions
 void fsm_dispatch(fsm_events_t event);
 void fsm_transition(state_fp new_state);
 

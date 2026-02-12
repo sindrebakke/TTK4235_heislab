@@ -1,51 +1,53 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <time.h>
-#include "driver/elevio.h"
+#include <unistd.h>
+#include <stdbool.h>
+#include "fsm.h"
+#include "elevator_fsm.h"
 
+// Forward declarations of functions from .c-modules
+bool hardware_interface_init(void);
+void hardware_interface_poll_buttons(void);
+void hardware_interface_update_lights(int current_floor);
+bool hardware_interface_read_stop_button(void);
+bool hardware_interface_read_obstruction(void);
 
+void order_manager_init(void);
+void door_control_init(void);
 
-int main(){
-    elevio_init();
+int main() {
     
-    printf("=== Example Program ===\n");
-    printf("Press the stop button on the elevator panel to exit\n");
-
-    elevio_motorDirection(DIRN_UP);
-
-    while(1){
-        int floor = elevio_floorSensor();
-
-        if(floor == 0){
-            elevio_motorDirection(DIRN_UP);
-        }
-
-        if(floor == N_FLOORS-1){
-            elevio_motorDirection(DIRN_DOWN);
-        }
-
-
-        for(int f = 0; f < N_FLOORS; f++){
-            for(int b = 0; b < N_BUTTONS; b++){
-                int btnPressed = elevio_callButton(f, b);
-                elevio_buttonLamp(f, b, btnPressed);
-            }
-        }
-
-        if(elevio_obstruction()){
-            elevio_stopLamp(1);
-        } else {
-            elevio_stopLamp(0);
-        }
-        
-        if(elevio_stopButton()){
-            elevio_motorDirection(DIRN_STOP);
-            break;
-        }
-        
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+    if (!hardware_interface_init()) {
+        printf("ERROR: Failed to initialize hardware\n");
+        return 1;
     }
-
+    
+    order_manager_init();
+    door_control_init();
+    elevator_fsm_init();
+    
+    bool prev_stop_state = false;
+    
+    while (1) {
+        hardware_interface_poll_buttons();
+        
+        bool stop_pressed = hardware_interface_read_stop_button();
+        if (stop_pressed && !prev_stop_state) {
+            fsm_dispatch(EVENT_STOP_PRESSED);
+        } else if (!stop_pressed && prev_stop_state) {
+            fsm_dispatch(EVENT_STOP_RELEASED);
+        }
+        prev_stop_state = stop_pressed;
+        
+        if (hardware_interface_read_obstruction()) {
+            fsm_dispatch(EVENT_OBSTRUCTION);
+        }
+        
+        fsm_dispatch(EVENT_TICK);
+        
+        hardware_interface_update_lights(current_floor);
+        
+        usleep(100000); // 100ms delay
+    }
+    
     return 0;
 }

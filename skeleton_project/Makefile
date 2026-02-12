@@ -1,9 +1,9 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g -I.
+CFLAGS = -Wall -Wextra -g -Isource
 
 SOURCES = source/main.c \
-          source/fsm/fsm.c \
-          source/fsm/elevator_fsm.c \
+          source/fsm.c \
+          source/elevator_fsm.c \
           source/order_manager.c \
           source/hardware_interface.c \
           source/door_control.c \

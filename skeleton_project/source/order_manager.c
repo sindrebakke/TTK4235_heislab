@@ -9,7 +9,7 @@ static bool hall_down_orders[N_FLOORS - 1];
 
 
 static void order_manager_print_status(void) {
-    printf("\n[ORDERS] ===== Bestillingsstatus =====\n");
+    printf("\n[ORDERS] --------- ORDER STATUS --------\n");
     printf("[ORDERS] CAB:       ");
     for (int i = 0; i < N_FLOORS; i++) {
         printf("%d:%s ", i, cab_orders[i] ? "X" : "-");
@@ -61,7 +61,7 @@ void order_manager_add_order(int floor, OrderType type) {
     }
 
     if (was_set) {
-        printf("[ORDERS] Ny bestilling: etasje %d, type %s\n", floor, order_type_to_string(type));
+        printf("[ORDERS] New order: floor %d, type %s\n", floor, order_type_to_string(type));
         order_manager_print_status();
     }
 }
@@ -117,7 +117,7 @@ Direction order_manager_get_next_direction(int current_floor, Direction current_
             bool has_hall_down = (f > 0) && hall_down_orders[f - 1];
             if (cab_orders[f] || has_hall_up || has_hall_down) {
                 result = DIR_UP;
-                printf("[DECISION] Etasje %d, retning %s -> velger %s (bestilling på etasje %d)\n",
+                printf("[DECISION] Floor %d, direction %s -> choosing %s (order on floor %d)\n",
                        current_floor, direction_to_string(current_direction),
                        direction_to_string(result), f);
                 return result;
@@ -131,7 +131,7 @@ Direction order_manager_get_next_direction(int current_floor, Direction current_
             bool has_hall_down = (f > 0) && hall_down_orders[f - 1];
             if (cab_orders[f] || has_hall_up || has_hall_down) {
                 result = DIR_DOWN;
-                printf("[DECISION] Etasje %d, retning %s -> velger %s (bestilling på etasje %d)\n",
+                printf("[DECISION] Floor %d, direction %s -> choosing %s (order on floor %d)\n",
                        current_floor, direction_to_string(current_direction),
                        direction_to_string(result), f);
                 return result;

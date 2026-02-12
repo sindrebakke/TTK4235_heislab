@@ -40,8 +40,6 @@ void hardware_interface_update_lights(int current_floor) {
         elevio_floorIndicator(current_floor);
     }
     
-    // Update button lights (simplified - skulle ideelt sett spørre order_manager)
-    // Dette må du implementere basert på dine behov
 }
 
 void hardware_interface_set_motor_direction(Direction direction) {

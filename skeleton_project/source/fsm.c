@@ -1,5 +1,13 @@
+/**
+ * @file fsm.c
+ * @brief Generic finite state machine implementation.
+ *
+ * Implements event dispatching and state transitions for the FSM framework.
+ */
+
 #include "fsm.h"
 
+/** @brief Global elevator FSM instance. */
 fsm_t elevator_fsm;
 
 void fsm_dispatch(fsm_events_t event) {
@@ -8,7 +16,7 @@ void fsm_dispatch(fsm_events_t event) {
     }
 }
 
-void fsm_transition(state_fp new_state) {
+void fsm_transition(p_state_f new_state) {
     if (elevator_fsm.state != NULL) {
         fsm_dispatch(EVENT_EXIT);
     }

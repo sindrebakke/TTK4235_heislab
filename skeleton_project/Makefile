@@ -20,4 +20,7 @@ $(TARGET): $(OBJECTS)
 clean:
 	rm -f $(OBJECTS) $(TARGET)
 
-.PHONY: all clean
+docs:
+	doxygen Doxyfile
+
+.PHONY: all clean docs

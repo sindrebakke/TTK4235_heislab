@@ -1,0 +1,45 @@
+compilation_database_dir: .
+output_directory: diagrams
+add_compile_flags:
+  - -w
+  - -fms-compatibility
+  - -fignore-exceptions
+  - -resource-dir=/opt/homebrew/Cellar/llvm/21.1.8_1/lib/clang/21
+  - --sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+diagrams:
+  # Viser event-dispatch og state-transitions
+  fsm_dispatch_flow:
+    type: sequence
+    glob:
+      - "source/fsm.c"
+      - "source/elevator_fsm.c"
+    start_from:
+      - function: "fsm_dispatch(fsm_events_t)"
+
+  # Viser state transition mekanismen
+  fsm_transition_flow:
+    type: sequence
+    glob:
+      - "source/fsm.c"
+      - "source/elevator_fsm.c"
+    start_from:
+      - function: "fsm_transition(p_state_f)"
+
+  # Viser FSM initialisering
+  fsm_init_flow:
+    type: sequence
+    glob:
+      - "source/elevator_fsm.c"
+      - "source/fsm.c"
+      - "source/hardware_interface.c"
+    start_from:
+      - function: "elevator_fsm_init()"
+
+  # Include-diagram for å vise modulavhengigheter
+  module_dependencies:
+    type: include
+    glob:
+      - "source/*.c"
+      - "source/*.h"
+    generate_links:
+      link: "https://github.com/user/repo/blob/main/{{ element.source.path }}"

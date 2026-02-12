@@ -1,0 +1,44 @@
+@startuml elevator_states
+skinparam state {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+}
+
+[*] --> INIT
+
+INIT --> IDLE : floor detected
+INIT : entry/ read floor sensor
+INIT : tick/ move down until floor found
+
+IDLE --> MOVING_UP : has order above
+IDLE --> MOVING_DOWN : has order below
+IDLE --> DOOR_OPEN : order at current floor
+IDLE --> EMERGENCY_STOP : STOP pressed
+IDLE : entry/ stop motor
+
+MOVING_UP --> IDLE : reached top floor
+MOVING_UP --> DOOR_OPEN : should_stop at floor
+MOVING_UP --> EMERGENCY_STOP : STOP pressed
+MOVING_UP : entry/ motor UP
+MOVING_UP : exit/ stop motor
+
+MOVING_DOWN --> IDLE : reached bottom floor
+MOVING_DOWN --> DOOR_OPEN : should_stop at floor
+MOVING_DOWN --> EMERGENCY_STOP : STOP pressed
+MOVING_DOWN : entry/ motor DOWN
+MOVING_DOWN : exit/ stop motor
+
+DOOR_OPEN --> IDLE : door closed
+DOOR_OPEN --> EMERGENCY_STOP : STOP pressed
+DOOR_OPEN : entry/ clear orders, open door
+DOOR_OPEN : tick/ check door timer
+DOOR_OPEN : obstruction/ reset timer
+DOOR_OPEN : exit/ close door
+
+EMERGENCY_STOP --> IDLE : STOP released
+EMERGENCY_STOP : entry/ stop motor, clear all orders
+EMERGENCY_STOP : entry/ open door (if at floor)
+EMERGENCY_STOP : tick/ keep door open
+EMERGENCY_STOP : exit/ close door (if at floor)
+
+@enduml

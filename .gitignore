@@ -1,2 +1,5 @@
 *.o
 elevator
+skeleton_project/latex/
+skeleton_project/html/
+skeleton_project/docs/

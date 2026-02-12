@@ -1,11 +1,5 @@
-/*
-+--------------------------------- +
-|  Hardware Interface             |
-|  Wrapper rundt elevio           |
-+--------------------------------- +
-*/
-#include "../elevator_types.h"
-#include "../driver/elevio.h"
+#include "elevator_types.h"
+#include "driver/elevio.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -13,31 +7,28 @@
 void order_manager_add_order(int floor, OrderType type);
 
 bool hardware_interface_init(void) {
-    if (elevio_init() != 0) {
-        return false;
-    }
-    printf("Hardware interface initialized\n");
+    elevio_init();
     return true;
 }
 
 void hardware_interface_poll_buttons(void) {
     // Poll cab buttons
     for (int floor = 0; floor < N_FLOORS; floor++) {
-        if (elevio_buttonSignal(BUTTON_COMMAND, floor)) {
+        if (elevio_callButton(floor, BUTTON_CAB)) {
             order_manager_add_order(floor, ORDER_TYPE_CAB);
         }
     }
     
     // Poll hall up buttons
     for (int floor = 0; floor < N_FLOORS - 1; floor++) {
-        if (elevio_buttonSignal(BUTTON_HALL_UP, floor)) {
+        if (elevio_callButton(floor, BUTTON_HALL_UP)) {
             order_manager_add_order(floor, ORDER_TYPE_HALL_UP);
         }
     }
     
     // Poll hall down buttons
     for (int floor = 1; floor < N_FLOORS; floor++) {
-        if (elevio_buttonSignal(BUTTON_HALL_DOWN, floor)) {
+        if (elevio_callButton(floor, BUTTON_HALL_DOWN)) {
             order_manager_add_order(floor, ORDER_TYPE_HALL_DOWN);
         }
     }
@@ -58,15 +49,15 @@ void hardware_interface_set_motor_direction(Direction direction) {
 }
 
 int hardware_interface_read_floor_sensor(void) {
-    return elevio_floorSensorSignal();
+    return elevio_floorSensor();
 }
 
 bool hardware_interface_read_stop_button(void) {
-    return elevio_stopButtonSignal();
+    return elevio_stopButton();
 }
 
 bool hardware_interface_read_obstruction(void) {
-    return elevio_obstructionSignal();
+    return elevio_obstruction();
 }
 
 void hardware_interface_set_door_light(bool on) {

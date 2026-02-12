@@ -55,6 +55,18 @@ static inline bool is_valid_floor(int floor) {
 }
 
 /**
+ * @brief Converts Direction to string for debugging
+ */
+static inline const char* direction_to_string(Direction dir) {
+    switch (dir) {
+        case DIR_UP: return "UP";
+        case DIR_DOWN: return "DOWN";
+        case DIR_STOP: return "STOP";
+        default: return "UNKNOWN";
+    }
+}
+
+/**
  * @brief Inverts direction
  */
 static inline Direction direction_opposite(Direction dir) {

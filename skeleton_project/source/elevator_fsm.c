@@ -109,23 +109,31 @@ void state_moving_up(fsm_events_t event) {
             hardware_interface_set_motor_direction(DIR_UP);
             return;
             
-        case EVENT_TICK:
+        case EVENT_TICK: {
             int floor = hardware_interface_read_floor_sensor();
             if (floor != -1) {
                 current_floor = floor;
-                
+
+                // Stopp ved toppetasje uansett
+                if (current_floor >= N_FLOORS - 1) {
+                    printf("[FSM] Reached top floor %d, stopping\n", current_floor);
+                    fsm_transition(state_idle);
+                    return;
+                }
+
                 if (order_manager_should_stop(current_floor, DIR_UP)) {
                     fsm_transition(state_door_open);
                 }
             }
             return;
-            
+        }
+
         case EVENT_STOP_PRESSED:
             fsm_transition(state_emergency_stop);
             return;
-            
+
         case EVENT_EXIT:
-            printf("STATE: MOVING_UP - Exiting\n");
+            printf("[FSM] STATE: MOVING_UP -> Exiting\n");
             hardware_interface_set_motor_direction(DIR_STOP);
             return;
             
@@ -142,22 +150,31 @@ void state_moving_down(fsm_events_t event) {
             hardware_interface_set_motor_direction(DIR_DOWN);
             return;
             
-        case EVENT_TICK:
+        case EVENT_TICK: {
             int floor = hardware_interface_read_floor_sensor();
             if (floor != -1) {
                 current_floor = floor;
-                
+
+                // Stopp ved bunnetasje uansett
+                if (current_floor <= 0) {
+                    printf("[FSM] Reached bottom floor %d, stopping\n", current_floor);
+                    fsm_transition(state_idle);
+                    return;
+                }
+
                 if (order_manager_should_stop(current_floor, DIR_DOWN)) {
                     fsm_transition(state_door_open);
                 }
             }
             return;
-            
+        }
+
         case EVENT_STOP_PRESSED:
             fsm_transition(state_emergency_stop);
             return;
-            
+
         case EVENT_EXIT:
+            printf("[FSM] STATE: MOVING_DOWN -> Exiting\n");
             hardware_interface_set_motor_direction(DIR_STOP);
             return;
             

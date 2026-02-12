@@ -55,7 +55,7 @@ static inline bool is_valid_floor(int floor) {
 }
 
 /**
- * @brief Inverts direction (UP <-> DOWN)
+ * @brief Inverts direction
  */
 static inline Direction direction_opposite(Direction dir) {
     if (dir == DIR_UP) return DIR_DOWN;

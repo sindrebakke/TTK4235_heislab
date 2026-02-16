@@ -7,7 +7,6 @@ add_compile_flags:
   - -resource-dir=/opt/homebrew/Cellar/llvm/21.1.8_1/lib/clang/21
   - --sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 diagrams:
-  # Viser event-dispatch og state-transitions
   fsm_dispatch_flow:
     type: sequence
     glob:
@@ -16,7 +15,6 @@ diagrams:
     start_from:
       - function: "fsm_dispatch(fsm_events_t)"
 
-  # Viser state transition mekanismen
   fsm_transition_flow:
     type: sequence
     glob:
@@ -25,7 +23,6 @@ diagrams:
     start_from:
       - function: "fsm_transition(p_state_f)"
 
-  # Viser FSM initialisering
   fsm_init_flow:
     type: sequence
     glob:
@@ -35,7 +32,6 @@ diagrams:
     start_from:
       - function: "elevator_fsm_init()"
 
-  # Include-diagram for å vise modulavhengigheter
   module_dependencies:
     type: include
     glob:

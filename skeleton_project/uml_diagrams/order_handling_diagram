@@ -1,0 +1,51 @@
+// Order Handling Diagram
+digraph {
+	rankdir=TB size="12,14"
+	subgraph cluster_buttons {
+		color=blue label="Button Inputs" style=rounded
+		cab_0 [label="Cab 0" fillcolor="#99ccff" shape=box style=filled]
+		cab_1 [label="Cab 1" fillcolor="#99ccff" shape=box style=filled]
+		cab_2 [label="Cab 2" fillcolor="#99ccff" shape=box style=filled]
+		cab_3 [label="Cab 3" fillcolor="#99ccff" shape=box style=filled]
+		hall_up_0 [label="Hall Up 0" fillcolor="#99ff99" shape=box style=filled]
+		hall_up_1 [label="Hall Up 1" fillcolor="#99ff99" shape=box style=filled]
+		hall_up_2 [label="Hall Up 2" fillcolor="#99ff99" shape=box style=filled]
+		hall_down_1 [label="Hall Down 1" fillcolor="#ff9999" shape=box style=filled]
+		hall_down_2 [label="Hall Down 2" fillcolor="#ff9999" shape=box style=filled]
+		hall_down_3 [label="Hall Down 3" fillcolor="#ff9999" shape=box style=filled]
+	}
+	subgraph cluster_orders {
+		color=orange label="Order Arrays" style=rounded
+		cab_orders [label="cab_orders[4]
+{F0, F1, F2, F3}" fillcolor="#ffcc99" shape=record style=filled]
+		hall_up [label="hall_up_orders[3]
+{F0, F1, F2}" fillcolor="#99ff99" shape=record style=filled]
+		hall_down [label="hall_down_orders[3]
+{F1, F2, F3}" fillcolor="#ff9999" shape=record style=filled]
+	}
+	scheduler [label="Scheduler Logic
+get_next_direction()
+should_stop()" fillcolor="#e6e6fa" shape=diamond style=filled]
+	subgraph cluster_outputs {
+		color=green label=Outputs style=rounded
+		dir [label="Direction
+(UP/DOWN/STOP)" fillcolor="#d9d9d9" shape=box style=filled]
+		stop [label="Should Stop?
+(bool)" fillcolor="#d9d9d9" shape=box style=filled]
+	}
+	cab_0 -> cab_orders
+	cab_1 -> cab_orders
+	cab_2 -> cab_orders
+	cab_3 -> cab_orders
+	hall_up_0 -> hall_up
+	hall_up_1 -> hall_up
+	hall_up_2 -> hall_up
+	hall_down_1 -> hall_down
+	hall_down_2 -> hall_down
+	hall_down_3 -> hall_down
+	cab_orders -> scheduler
+	hall_up -> scheduler
+	hall_down -> scheduler
+	scheduler -> dir
+	scheduler -> stop
+}

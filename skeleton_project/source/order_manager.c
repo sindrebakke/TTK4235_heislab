@@ -173,11 +173,7 @@ Direction order_manager_get_next_direction(int current_floor, Direction current_
             bool has_hall_up = (f < N_FLOORS - 1) && hall_up_orders[f];
             bool has_hall_down = (f > 0) && hall_down_orders[f - 1];
             if (cab_orders[f] || has_hall_up || has_hall_down) {
-                result = DIR_UP;
-                printf("[DECISION] Floor %d, direction %s -> choosing %s (order on floor %d)\n",
-                       current_floor, direction_to_string(current_direction),
-                       direction_to_string(result), f);
-                return result;
+                return DIR_UP;
             }
         }
     }
@@ -187,11 +183,7 @@ Direction order_manager_get_next_direction(int current_floor, Direction current_
             bool has_hall_up = (f < N_FLOORS - 1) && hall_up_orders[f];
             bool has_hall_down = (f > 0) && hall_down_orders[f - 1];
             if (cab_orders[f] || has_hall_up || has_hall_down) {
-                result = DIR_DOWN;
-                printf("[DECISION] Floor %d, direction %s -> choosing %s (order on floor %d)\n",
-                       current_floor, direction_to_string(current_direction),
-                       direction_to_string(result), f);
-                return result;
+                return DIR_DOWN;
             }
         }
     }

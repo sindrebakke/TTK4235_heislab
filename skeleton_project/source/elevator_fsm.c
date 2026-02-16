@@ -140,7 +140,6 @@ void state_moving_up(fsm_events_t event) {
             return;
 
         case EVENT_EXIT:
-            printf("[FSM] STATE: MOVING_UP -> Exiting\n");
             hardware_interface_set_motor_direction(DIR_STOP);
             return;
 
@@ -181,7 +180,6 @@ void state_moving_down(fsm_events_t event) {
             return;
 
         case EVENT_EXIT:
-            printf("[FSM] STATE: MOVING_DOWN -> Exiting\n");
             hardware_interface_set_motor_direction(DIR_STOP);
             return;
 

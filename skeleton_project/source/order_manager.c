@@ -44,23 +44,19 @@ void order_manager_init(void) {
 void order_manager_add_order(int floor, OrderType type) {
     if (!is_valid_floor(floor)) return;
 
-    bool was_set = false;
     switch (type) {
         case ORDER_TYPE_CAB:
-            if (!cab_orders[floor]) was_set = true;
             cab_orders[floor] = true;
             break;
 
         case ORDER_TYPE_HALL_UP:
             if (floor < N_FLOORS - 1) {
-                if (!hall_up_orders[floor]) was_set = true;
                 hall_up_orders[floor] = true;
             }
             break;
 
         case ORDER_TYPE_HALL_DOWN:
             if (floor > 0 && floor < N_FLOORS) {
-                if (!hall_down_orders[floor - 1]) was_set = true;
                 hall_down_orders[floor - 1] = true;
             }
             break;
@@ -86,8 +82,6 @@ void order_manager_clear_orders_at_floor(int floor, Direction direction) {
     if (direction == DIR_DOWN && floor > 0) {
         hall_down_orders[floor - 1] = false;
     }
-
-           floor, direction_to_string(direction));
 }
 
 /**

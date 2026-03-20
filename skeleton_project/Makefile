@@ -23,4 +23,14 @@ clean:
 docs:
 	doxygen Doxyfile
 
-.PHONY: all clean docs
+TEST_SOURCES = source/tests/test_runner.c \
+               source/tests/test_order_manager.c \
+               source/tests/test_door_control.c \
+               source/order_manager.c \
+               source/door_control.c
+
+test: $(TEST_SOURCES)
+	$(CC) $(CFLAGS) $(TEST_SOURCES) -o test_elevator
+	./test_elevator
+
+.PHONY: all clean docs test

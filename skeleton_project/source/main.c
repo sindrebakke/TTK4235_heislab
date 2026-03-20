@@ -17,7 +17,6 @@ void door_control_init(void);
 int main() {
     
     if (!hardware_interface_init()) {
-        printf("ERROR: Failed to initialize hardware\n");
         return 1;
     }
     

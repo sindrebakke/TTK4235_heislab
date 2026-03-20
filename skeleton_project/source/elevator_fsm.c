@@ -123,7 +123,6 @@ void state_moving_up(fsm_events_t event) {
 
                 // Stop at top floor regardless of orders
                 if (current_floor >= N_FLOORS - 1) {
-                    printf("[FSM] Reached top floor %d, stopping\n", current_floor);
                     fsm_transition(state_idle);
                     return;
                 }
@@ -163,7 +162,6 @@ void state_moving_down(fsm_events_t event) {
 
                 // Stop at bottom floor regardless of orders
                 if (current_floor <= 0) {
-                    printf("[FSM] Reached bottom floor %d, stopping\n", current_floor);
                     fsm_transition(state_idle);
                     return;
                 }

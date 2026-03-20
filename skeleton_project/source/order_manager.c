@@ -19,27 +19,6 @@ static bool hall_up_orders[N_FLOORS - 1];
 /** @brief Hall down button orders (floors 1 to N_FLOORS-1, indexed as 0 to N_FLOORS-2). */
 static bool hall_down_orders[N_FLOORS - 1];
 
-/**
- * @brief Prints current order status to console.
- *
- * Displays all active orders for debugging purposes.
- */
-static void order_manager_print_status(void) {
-    printf("\n[ORDERS] --------- ORDER STATUS --------\n");
-    printf("[ORDERS] CAB:       ");
-    for (int i = 0; i < N_FLOORS; i++) {
-        printf("%d:%s ", i, cab_orders[i] ? "X" : "-");
-    }
-    printf("\n[ORDERS] HALL_UP:   ");
-    for (int i = 0; i < N_FLOORS - 1; i++) {
-        printf("%d:%s ", i, hall_up_orders[i] ? "X" : "-");
-    }
-    printf("\n[ORDERS] HALL_DOWN: ");
-    for (int i = 0; i < N_FLOORS - 1; i++) {
-        printf("%d:%s ", i + 1, hall_down_orders[i] ? "X" : "-");
-    }
-    printf("\n");
-}
 
 /**
  * @brief Initializes the order manager.
@@ -86,11 +65,6 @@ void order_manager_add_order(int floor, OrderType type) {
             }
             break;
     }
-
-    if (was_set) {
-        printf("[ORDERS] New order: floor %d, type %s\n", floor, order_type_to_string(type));
-        order_manager_print_status();
-    }
 }
 
 /**
@@ -113,7 +87,6 @@ void order_manager_clear_orders_at_floor(int floor, Direction direction) {
         hall_down_orders[floor - 1] = false;
     }
 
-    printf("Cleared orders at floor %d (direction: %s)\n",
            floor, direction_to_string(direction));
 }
 
